@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/easy_shadow"
+        android:id="@+id/simple"
+        android:padding="6dp">
+        <TextView
+            android:id="@+id/sname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="姓名:野比大雄"
+            android:textSize="17dp"
+            android:textColor="#606060"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp" />
+        <TextView
+            android:id="@+id/snum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="学号:我怎么知道"
+            android:textSize="14dp"
+            android:textColor="#757575"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="10dp" />
+        <TextView
+            android:id="@+id/stime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="使用时间:40min"
+            android:textSize="14dp"
+            android:textColor="#757575"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="190dp" />
+        <TextView
+            android:id="@+id/sapp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="使用最久：微博"
+            android:textSize="16dp"
+            android:textColor="#757575"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="6dp"
+            android:layout_marginLeft="190dp" />
+    </RelativeLayout>
+</LinearLayout>

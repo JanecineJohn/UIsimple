@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">课堂清单</string>
+    <drawable name="clr_normal">#03A9F4</drawable>
+    <drawable name="clr_pressed">#448AFF</drawable>
+    <string name="LoginWindow">课堂清单</string>
+    <string name="Account">账号</string>
+    <string name="Password">密码</string>
+    <string name="Login">登录</string>
+    <string name="pass">跳过</string>
+    <string name="tips">登录后可查看历史记录，跳过亦可使用本软件</string>
+    <string name="confirm">确认</string>
+    <string name="name">姓名</string>
+    <string name="number">学号</string>
+    <string name="register">注册</string>
+    <string name="RegisterWindow">新用户注册</string>
+    <string name="PasswordConfirm">确认密码</string>
+    <string name="em">邮箱</string>
+    <string name="pn">手机</string>
+    <string name="CreateClass">创建课堂</string>
+    <string name="JoinClass">加入课堂</string>
+    <string name="EndTheClass">结束课堂</string>
+</resources>

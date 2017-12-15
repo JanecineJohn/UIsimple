@@ -1,0 +1,152 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.ending.uisimple.mySituation">
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:orientation="vertical"
+        android:background="@drawable/border_shadow">
+        <Button
+            android:id="@+id/MenuButton"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:background="@mipmap/ic_usermenu"
+            android:onClick="onClick"/>
+    </LinearLayout>
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/common_background">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/easy_shadow"
+                android:padding="6dp">
+                <ImageView
+                    android:id="@+id/weibo"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="1dp"
+                    app:srcCompat="@drawable/weibo" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="微博"
+                    android:textSize="17dp"
+                    android:textColor="#606060"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toEndOf="@+id/weibo" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="上课期间使用时长:5min"
+                    android:textSize="14dp"
+                    android:textColor="#757575"
+                    android:layout_marginTop="35dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toEndOf="@+id/weibo" />
+            </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/easy_shadow"
+            android:padding="6dp">
+            <ImageView
+                android:id="@+id/WeChat"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="1dp"
+                app:srcCompat="@drawable/chat" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="微信"
+                android:textSize="17dp"
+                android:textColor="#606060"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_toEndOf="@+id/WeChat" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="上课期间使用时长:4min"
+                android:textSize="14dp"
+                android:textColor="#757575"
+                android:layout_marginTop="35dp"
+                android:layout_marginLeft="10dp"
+                android:layout_toEndOf="@+id/WeChat" />
+        </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/easy_shadow"
+                android:padding="6dp">
+                <ImageView
+                    android:id="@+id/QQ"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="1dp"
+                    app:srcCompat="@drawable/qq" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="QQ"
+                    android:textSize="17dp"
+                    android:textColor="#606060"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toEndOf="@+id/QQ" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="上课期间使用时长:4min"
+                    android:textSize="14dp"
+                    android:textColor="#757575"
+                    android:layout_marginTop="35dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toEndOf="@+id/QQ" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/easy_shadow"
+                android:padding="6dp">
+                <ImageView
+                    android:id="@+id/taobao"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="1dp"
+                    app:srcCompat="@drawable/taobao" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="手机淘宝"
+                    android:textSize="17dp"
+                    android:textColor="#606060"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toEndOf="@+id/taobao" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="上课期间使用时长:1min"
+                    android:textSize="14dp"
+                    android:textColor="#757575"
+                    android:layout_marginTop="35dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toEndOf="@+id/taobao" />
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

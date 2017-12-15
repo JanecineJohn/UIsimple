@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    tools:context="com.example.ending.uisimple.MainActivity"
+    tools:layout_editor_absoluteY="0dp"
+    tools:layout_editor_absoluteX="0dp"
+    android:background="@drawable/common_background">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/border_shadow">
+        <Button
+            android:id="@+id/RegisterBack"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="6dp"
+            android:onClick="onClick"
+            android:background="@mipmap/ic_back" />
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <TextView
+            android:id="@+id/RegisterWindow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/imageView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:text="@string/RegisterWindow"
+            android:textSize="30dp" />
+        <EditText
+            android:id="@+id/RegisterUsernameEdit"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/RegisterConfirm"
+            android:layout_alignStart="@+id/RegisterConfirm"
+            android:layout_alignTop="@+id/RegisterWindow"
+            android:layout_centerHorizontal="false"
+            android:layout_marginTop="80dp"
+            android:hint="@string/em"
+            android:textColor="#ff888888"
+            android:textSize="17dp"
+            android:theme="@style/MyEditText" />
+        <EditText
+            android:id="@+id/RegisterEMEdit"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/RegisterConfirm"
+            android:layout_alignStart="@+id/RegisterConfirm"
+            android:layout_alignTop="@+id/RegisterUsernameEdit"
+            android:layout_centerHorizontal="false"
+            android:layout_marginTop="40dp"
+            android:hint="@string/pn"
+            android:textColor="#ff888888"
+            android:textSize="17dp"
+            android:theme="@style/MyEditText" />
+        <EditText
+            android:id="@+id/RegisterPNEdit"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/RegisterConfirm"
+            android:layout_alignStart="@+id/RegisterConfirm"
+            android:layout_alignTop="@+id/RegisterEMEdit"
+            android:layout_centerHorizontal="false"
+            android:layout_marginTop="40dp"
+            android:hint="@string/name"
+            android:textColor="#ff888888"
+            android:textSize="17dp"
+            android:theme="@style/MyEditText" />
+        <EditText
+            android:id="@+id/RegisterNumberEdit"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/RegisterConfirm"
+            android:layout_alignStart="@+id/RegisterConfirm"
+            android:layout_alignTop="@+id/RegisterPNEdit"
+            android:layout_centerHorizontal="false"
+            android:layout_marginTop="40dp"
+            android:hint="@string/number"
+            android:textColor="#ff888888"
+            android:textSize="17dp"
+            android:theme="@style/MyEditText" />
+        <EditText
+            android:id="@+id/RegisterPasswordEdit"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/RegisterConfirm"
+            android:layout_alignStart="@+id/RegisterConfirm"
+            android:layout_alignTop="@+id/RegisterNumberEdit"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="40dp"
+            android:hint="@string/Password"
+            android:inputType="textPassword"
+            android:textColor="#ff888888"
+            android:textSize="17dp"
+            android:theme="@style/MyEditText" />
+        <EditText
+            android:id="@+id/RegisterPasswordConfirmEdit"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/RegisterConfirm"
+            android:layout_alignStart="@+id/RegisterConfirm"
+            android:layout_alignTop="@+id/RegisterPasswordEdit"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="40dp"
+            android:hint="@string/PasswordConfirm"
+            android:inputType="textPassword"
+            android:textColor="#ff888888"
+            android:textSize="17dp"
+            android:theme="@style/MyEditText" />
+        <Button
+            android:id="@+id/RegisterConfirm"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/RegisterPasswordConfirmEdit"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="70dp"
+            android:layout_marginTop="90dp"
+            android:background="@drawable/login_button_selector"
+            android:onClick="onClick"
+            android:text="@string/confirm"
+            android:textColor="#ffffffff" />
+        <Button
+            android:id="@+id/RegisterPasswordVisual"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignEnd="@+id/RegisterConfirm"
+            android:layout_alignTop="@+id/RegisterPasswordEdit"
+            android:layout_marginTop="3dp"
+            android:background="@mipmap/ic_eye5"
+            android:onClick="onClick" />
+        <Button
+            android:id="@+id/RegisterPasswordConfirmVisual"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignEnd="@+id/RegisterConfirm"
+            android:layout_alignTop="@+id/RegisterPasswordConfirmEdit"
+            android:layout_marginTop="3dp"
+            android:background="@mipmap/ic_eye5"
+            android:onClick="onClick" />
+    </RelativeLayout>
+</LinearLayout>
