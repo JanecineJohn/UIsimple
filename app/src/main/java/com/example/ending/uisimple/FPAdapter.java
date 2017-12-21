@@ -24,9 +24,9 @@ public class FPAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         Fragment fragment = null;
         if (position == 0)
-            fragment = new mySituation();
-        if (position == 1){
             fragment = new myWord();
+        if (position == 1){
+            fragment = new mySituation();
         }
         return fragment;
     }

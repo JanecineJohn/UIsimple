@@ -22,7 +22,7 @@ public class mySituation extends Fragment {
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        view= inflater.inflate(R.layout.fragment_my_word,container,false);
+        view= inflater.inflate(R.layout.fragment_my_situation,container,false);
         return view;
     }
 

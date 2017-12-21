@@ -1,92 +1,48 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.ending.uisimple.myWord"
     android:background="@drawable/common_background">
 
-    <!-- TODO: Update blank fragment layout -->
-
-    <LinearLayout
-        android:id="@+id/word"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical">
     <ScrollView
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@drawable/common_background">
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical">
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-    <com.github.library.bubbleview.BubbleTextVew
-        android:id="@+id/firstword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:textSize="20sp"
-        android:padding="10dp"
-        android:text="老师我想玩手机：) "
-        android:textColor="@android:color/white"
-        app:arrowWidth="8dp"
-        app:angle="8dp"
-        app:arrowHeight="10dp"
-        app:arrowPosition="27dp"
-        app:arrowLocation="right"
-        app:bubbleColor="#7EC0EE"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="20dp" />
-
-        <com.github.library.bubbleview.BubbleTextVew
-            android:id="@+id/secondword"
-            android:layout_width="wrap_content"
+        android:layout_weight="1">
+        <TextView
+            android:id="@+id/frag_chat_txv"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:textSize="20sp"
-            android:padding="10dp"
-            android:text="老师你盯着我干啥=_=! "
-            android:textColor="@android:color/white"
-            app:arrowWidth="8dp"
-            app:angle="8dp"
-            app:arrowHeight="10dp"
-            app:arrowPosition="27dp"
-            app:arrowLocation="right"
-            app:bubbleColor="#7EC0EE"
-            android:layout_below="@+id/firstword"
-            android:layout_alignEnd="@+id/firstword" />
-    </RelativeLayout>
-    </LinearLayout>
+            android:textSize="18sp"
+            android:textColor="#000000"
+            android:focusable="true"
+            android:focusableInTouchMode="true" />
     </ScrollView>
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/white"
-            android:orientation="horizontal">
-            <EditText
-                android:layout_width="fill_parent"
-                android:layout_height="50dp"
-                android:layout_marginRight="50dp"
-                android:layout_marginLeft="20dp"
-                android:hint="不要啊hRSThSRThtrh"
-                android:theme="@style/MyEditText"
-                android:id="@+id/editText" />
 
-            <Button
-                android:id="@+id/OTCsend"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@drawable/makefg"
-                android:layout_marginRight="15dp"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"
-                android:onClick="onClick"/>
-        </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:orientation="horizontal"
+        android:background="@color/colorTabBackground">
+
+        <EditText
+            android:id="@+id/frag_chat_et"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="8"
+            android:textSize="20sp" />
+        <Button
+            android:id="@+id/frag_chat_bt"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:background="#76EE00"
+            android:textColor="#FFFFFF"
+            android:text="发送"/>
     </LinearLayout>
-</FrameLayout>
+
+</LinearLayout>

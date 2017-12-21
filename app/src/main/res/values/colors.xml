@@ -15,4 +15,7 @@
     <drawable name="red">#ffff0000</drawable>
     <drawable name="transparent">#00000000</drawable>
     <drawable name="yellow">#ffffff00</drawable>
+
+
+    <color name="colorTabBackground">#E0E0E0</color>
 </resources>

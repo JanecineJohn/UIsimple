@@ -24,17 +24,4 @@ public class StudentOTCActivity extends AppCompatActivity {
         viewPager.setAdapter(fpAdapter);
         tabLayout.setupWithViewPager(viewPager);
     }
-
-    public void onClick(View view)
-    {
-        switch (view.getId())
-        {
-            case R.id.OTCsend:
-            {
-                Intent intent=new Intent(StudentOTCActivity.this,StudentACActivity.class);
-                startActivity(intent);
-                break;
-            }
-        }
-    }
 }

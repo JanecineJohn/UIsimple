@@ -117,32 +117,9 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     }
-    public void sendRegisterHttp(User user){
-        String url = "http://10.243.6.27:8080//UserServlet?method=login";//服务器注册地址
-        postJson post = new postJson();
-        post.httpPostJson(url,user).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                final String errorMessage = e.toString();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(LoginActivity.this,errorMessage,Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                final String responseMessage = response.toString();
-                Intent intent=new Intent(LoginActivity.this,AfterRegisterActivity.class);
-                intent.putExtra("response",responseMessage);
-                startActivity(intent);
-            }
-        });
-    }
+    //看情况确定是否需要接收user的其他信息
     public void sendLoginHttp(User user){
-        String url = "http://10.243.6.27:8080//UserServlet?method=login";//服务器登陆接口
+        String url = getResources().getString(R.string.loginAddress);//服务器登陆接口
         postJson post = new postJson();
         Log.d("发送登陆请求","正在接收返回信息");
         post.httpPostJson(url,user).enqueue(new Callback() {
@@ -170,7 +147,7 @@ public class LoginActivity extends AppCompatActivity {
                     userResult.getUid();//获取返回的用户ID
                     SharedPreferences.Editor editor =
                             getSharedPreferences("userInfo",MODE_PRIVATE).edit();
-                    editor.putString("userID",userResult.getUid());//将用户ID写进文件
+                    editor.putString("userId",userResult.getUid());//将用户ID写进文件
                     editor.putString("userName",userResult.getUsername());//将用户名写进文件
                     editor.apply();
                     Log.d("接收到返回信息","用户信息已经写入文件");
@@ -189,10 +166,11 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         }
                     });
-                    Intent intent = new Intent();
-                    intent.putExtra("extra_data","num_name");
-                    setResult(1,intent);
-                    LoginActivity.this.finish();
+                    Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                    startActivity(intent);
+//                    intent.putExtra("extra_data","num_name");
+//                    setResult(1,intent);
+//                    LoginActivity.this.finish();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

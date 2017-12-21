@@ -41,7 +41,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void sendRegisterHttp(User user){
-        String url = "http://10.243.6.27:8080//UserServlet?method=register";//服务器注册地址
+        String url = getResources().getString(R.string.registerAddress);//服务器注册地址
         postJson post = new postJson();
         post.httpPostJson(url,user).enqueue(new Callback() {
             @Override
@@ -57,10 +57,20 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                final String responseMessage = response.toString();
-                Intent intent=new Intent(RegisterActivity.this,AfterRegisterActivity.class);
-                intent.putExtra("response",responseMessage);
-                startActivity(intent);
+                final String responseMessage = response.body().string();
+                Log.i("注册页面",responseMessage);
+                if (responseMessage.equals("successful")){
+                    Intent intent=new Intent(RegisterActivity.this,AfterRegisterActivity.class);
+                    intent.putExtra("response",responseMessage);
+                    startActivity(intent);
+                }else {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(RegisterActivity.this,"该用户已存在",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
         });
     }
