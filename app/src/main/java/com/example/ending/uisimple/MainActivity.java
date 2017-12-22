@@ -80,6 +80,13 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
+    //每次重新回到主界面回调此方法
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
     @Override
     protected void onActivityResult(int requestCode,int resultCode,Intent data)
     {
@@ -237,7 +244,6 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this,"无用户信息，请登录",Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(MainActivity.this,LoginActivity.class);
                     startActivity(intent);
-                    MainActivity.this.finish();
                 }else {
                     //加入课堂按钮，扫码登录
                     customScan();
@@ -280,6 +286,7 @@ public class MainActivity extends AppCompatActivity {
                 .initiateScan();//开始扫描
     }
 
+    //弹出对话框，让用户填写姓名学号
     public void dialogView(){
         final View joinClassForm = getLayoutInflater().inflate(R.layout.dialog_layout,null);
         final EditText nameEdt = joinClassForm.findViewById(R.id.dialog_name_edt);
@@ -291,6 +298,12 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton("签到", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        //把用户名存储到sharedPreference文件
+                        SharedPreferences.Editor editor =
+                                getSharedPreferences("userInfo",MODE_PRIVATE).edit();
+                        editor.putString("trueName",nameEdt.getText().toString());//将用户ID写进文件
+                        editor.apply();
+
                         //执行登录处理，发送两个信息
                         MidJoinner midJoinner = new MidJoinner(nameEdt.getText().toString(),studentIdEdt.getText().toString());
                         String mid = new Gson().toJson(midJoinner);

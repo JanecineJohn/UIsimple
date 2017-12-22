@@ -130,7 +130,7 @@ public class LoginActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(LoginActivity.this,errorMessage,
+                        Toast.makeText(LoginActivity.this,"无法登陆，请检查网络",
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -149,6 +149,7 @@ public class LoginActivity extends AppCompatActivity {
                             getSharedPreferences("userInfo",MODE_PRIVATE).edit();
                     editor.putString("userId",userResult.getUid());//将用户ID写进文件
                     editor.putString("userName",userResult.getUsername());//将用户名写进文件
+                    //editor.putString("trueName",userResult.getTrueName());
                     editor.apply();
                     Log.d("接收到返回信息","用户信息已经写入文件");
                     runOnUiThread(new Runnable() {
@@ -168,6 +169,7 @@ public class LoginActivity extends AppCompatActivity {
                     });
                     Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                     startActivity(intent);
+                    LoginActivity.this.finish();
 //                    intent.putExtra("extra_data","num_name");
 //                    setResult(1,intent);
 //                    LoginActivity.this.finish();

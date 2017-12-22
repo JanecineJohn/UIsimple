@@ -50,7 +50,7 @@ public class RegisterActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(RegisterActivity.this,errorMessage,Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterActivity.this,"无法注册，请检查网络",Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -63,6 +63,7 @@ public class RegisterActivity extends AppCompatActivity {
                     Intent intent=new Intent(RegisterActivity.this,AfterRegisterActivity.class);
                     intent.putExtra("response",responseMessage);
                     startActivity(intent);
+                    RegisterActivity.this.finish();
                 }else {
                     runOnUiThread(new Runnable() {
                         @Override

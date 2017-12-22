@@ -10,6 +10,7 @@ public class User {
      */
     private String uid;
     private String username;//用户名(not_Judge)
+    private String trueName;//真实姓名
     private String password;//密码
     private String email;//电子邮件(电子邮件规则)
     private String code;
@@ -32,6 +33,9 @@ public class User {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    public String getTrueName(){return trueName;}
+    public void setTrueName(String trueName){this.trueName = trueName;}
 
     public String getPassword() {
         return password;

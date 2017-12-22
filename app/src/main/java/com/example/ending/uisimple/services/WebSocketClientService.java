@@ -24,7 +24,7 @@ public class WebSocketClientService extends Service {
     WebSocketClient mWebSocketClient;
     //final String address = "ws://10.243.6.27:8080/websocket/onClass/84";
     String address;//服务器地址
-    String userName;//用户名
+    String trueName;//用户名
     int classId;//课堂id
 
     @Nullable
@@ -74,8 +74,8 @@ public class WebSocketClientService extends Service {
                         public void onOpen(ServerHandshake serverHandshake) {
                             Log.d("webSocket相关信息---->","onOpen，建立webSocket连接");
                             SharedPreferences pref = getSharedPreferences("userInfo",MODE_PRIVATE);
-                            userName = pref.getString("userName","");
-                            Chatter chatter = new Chatter("系统信息",true,userName + "进入课堂",classId);
+                            trueName = pref.getString("trueName","");
+                            Chatter chatter = new Chatter(trueName,true,"进入课堂(系统信息)",classId);
                             String chatterJson = new Gson().toJson(chatter);
                             sendMsg(chatterJson);
                         }

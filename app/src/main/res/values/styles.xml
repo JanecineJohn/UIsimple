@@ -3,6 +3,8 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
 
+        <item name="android:windowAnimationStyle">@style/AnimationActivity</item>
+        <item name="android:windowNoTitle">true</item>
         <item name="colorPrimary">#03A9F4</item>
         <item name="colorPrimaryDark">#03A9F4</item>
         <!-- Customize your theme here. -->
@@ -21,5 +23,13 @@
     <style name="MyEditText" parent="Theme.AppCompat.Light">
         <item name="colorControlNormal">#9E9E9E</item>
         <item name="colorControlActivated">#03A9F4</item>
+    </style>
+
+    <style name="AnimationActivity"
+        parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/anim_enter</item>
+        <item name="android:activityOpenExitAnimation">@anim/anim_exit</item>
+        <item name="android:activityCloseEnterAnimation">@anim/back_enter</item>
+        <item name="android:activityCloseExitAnimation">@anim/back_exit</item>
     </style>
 </resources>

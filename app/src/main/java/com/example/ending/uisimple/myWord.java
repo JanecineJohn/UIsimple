@@ -41,6 +41,7 @@ public class myWord extends Fragment {
 
     String userId;//用户Id
     String userName;//用户名
+    String trueName;//真实姓名
     int classId;//课堂id;
 
     public View onCreateView(LayoutInflater inflater,
@@ -61,6 +62,8 @@ public class myWord extends Fragment {
         SharedPreferences pref = getActivity().getSharedPreferences("userInfo",Context.MODE_PRIVATE);
         userId = pref.getString("userId","");
         userName = pref.getString("userName","");
+        trueName = pref.getString("trueName","");
+        //trueName = pref.getString("trueName","");
 
         //注册广播接收器
         intentFilter = new IntentFilter();
@@ -98,7 +101,7 @@ public class myWord extends Fragment {
                     Toast.makeText(getActivity(),"不能发送空消息",Toast.LENGTH_SHORT).show();
                 }else {
                     //service.sendMsg(message);
-                    Chatter chatter = new Chatter(userName,true,message,classId);
+                    Chatter chatter = new Chatter(trueName,true,message,classId);
                     String chatterJson = new Gson().toJson(chatter);
                     service.sendMsg(chatterJson);
                     editMessage.setText("");
