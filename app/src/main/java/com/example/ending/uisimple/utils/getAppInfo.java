@@ -3,12 +3,14 @@ package com.example.ending.uisimple.utils;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.provider.Settings;
+import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
 import com.example.ending.uisimple.javabean.AppInfo;
@@ -39,7 +41,7 @@ import java.util.List;
  * */
 
 public class getAppInfo {
-    public List getappinfo(Context context){
+    public List getappinfo(final Context context){
         List<AppInfo> appInfoList = new ArrayList<>();
         //加入版本控制
 //        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
@@ -71,14 +73,31 @@ public class getAppInfo {
 
             //如果list的大小为0，意味着没有权限获取APP信息，需要用户授予权限
             if (list.size() == 0){
-                try {
-                    context.startActivity(new Intent
-                            (Settings.ACTION_USAGE_ACCESS_SETTINGS));
-                }catch (Exception e){
-                    Toast.makeText(context,
-                            "无法开启授权界面",Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-                }
+                new AlertDialog.Builder(context)
+                        .setTitle("无法获得权限")
+                        .setMessage("需要您手动授予权限")
+                        .setPositiveButton("去授权", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                try {
+                                    context.startActivity(new Intent
+                                            (Settings.ACTION_USAGE_ACCESS_SETTINGS));
+                                }catch (Exception e){
+                                    Toast.makeText(context,
+                                            "无法开启授权界面",Toast.LENGTH_SHORT).show();
+                                    e.printStackTrace();
+                                }
+                            }
+                        })
+                        .setNegativeButton("取消并退出", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent intent = new Intent("com.example.dell.broadcast.mySituation_FINISH");
+                                context.sendBroadcast(intent);
+                            }
+                        })
+                        .create()
+                        .show();
             }else{
                 //定义时间格式，将时间戳转化为此格式
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

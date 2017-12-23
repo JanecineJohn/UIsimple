@@ -77,13 +77,6 @@ public class myWord extends Fragment {
         classId = getActivity().getIntent().getIntExtra("classId",0);
         Log.i("myWord的服务器地址：",address);
         Log.i("myWord的课堂号：",classId + "");
-        //Toast.makeText(getContext(),address,Toast.LENGTH_SHORT).show();
-//        String regex = "(?<=\\bonClass/)\\d+\\b";//匹配出课堂id
-//        Pattern pattern = Pattern.compile(regex);
-//        Matcher matcher = pattern.matcher(address);
-//        if (matcher.find()){
-//            classId = Integer.parseInt(matcher.group());
-//        }
 
         //开启服务,并向服务传递服务器地址
         Intent intent = new Intent(getActivity(),WebSocketClientService.class);
@@ -101,7 +94,7 @@ public class myWord extends Fragment {
                     Toast.makeText(getActivity(),"不能发送空消息",Toast.LENGTH_SHORT).show();
                 }else {
                     //service.sendMsg(message);
-                    Chatter chatter = new Chatter(trueName,true,message,classId);
+                    Chatter chatter = new Chatter(trueName,"",true,message,classId);
                     String chatterJson = new Gson().toJson(chatter);
                     service.sendMsg(chatterJson);
                     editMessage.setText("");

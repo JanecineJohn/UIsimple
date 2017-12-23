@@ -24,7 +24,8 @@ public class WebSocketClientService extends Service {
     WebSocketClient mWebSocketClient;
     //final String address = "ws://10.243.6.27:8080/websocket/onClass/84";
     String address;//服务器地址
-    String trueName;//用户名
+    String trueName;//姓名
+    String schoolId;//学号
     int classId;//课堂id
 
     @Nullable
@@ -75,7 +76,8 @@ public class WebSocketClientService extends Service {
                             Log.d("webSocket相关信息---->","onOpen，建立webSocket连接");
                             SharedPreferences pref = getSharedPreferences("userInfo",MODE_PRIVATE);
                             trueName = pref.getString("trueName","");
-                            Chatter chatter = new Chatter(trueName,true,"进入课堂(系统信息)",classId);
+                            schoolId = pref.getString("schoolId","无");
+                            Chatter chatter = new Chatter(trueName,schoolId,true,"进入课堂(系统信息)",classId);
                             String chatterJson = new Gson().toJson(chatter);
                             sendMsg(chatterJson);
                         }
@@ -90,7 +92,7 @@ public class WebSocketClientService extends Service {
                                 boolean isStudent = jsonObject.getBoolean("isStudent");
                                 if (isClose && !isStudent){
                                     //如果isClose为真，isStudent为假，代表这条信息是老师发的关闭课堂消息
-                                    Chatter closeChat = new Chatter("系统信息",false,"已断开连接",classId);//构建系统信息
+                                    Chatter closeChat = new Chatter("系统信息","",false,"已断开连接",classId);//构建系统信息
                                     String closeJson = new Gson().toJson(closeChat);
                                     Intent intent = new Intent
                                             ("com.example.dell.broadcast.WebSocket_BROADCAST");

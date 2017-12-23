@@ -5,7 +5,7 @@ android {
     buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "com.example.ending.uisimple"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -33,6 +33,7 @@ dependencies {
     compile 'com.android.support:support-v4:26.+'
     compile 'com.lguipeng.bubbleview:library:1.0.0'
     compile 'com.squareup.okhttp3:okhttp:3.9.0'
+    compile 'com.android.support:recyclerview-v7:26.0.0-alpha1'
     compile 'com.google.code.gson:gson:2.8.2'
     testCompile 'junit:junit:4.12'
 }

@@ -301,7 +301,8 @@ public class MainActivity extends AppCompatActivity {
                         //把用户名存储到sharedPreference文件
                         SharedPreferences.Editor editor =
                                 getSharedPreferences("userInfo",MODE_PRIVATE).edit();
-                        editor.putString("trueName",nameEdt.getText().toString());//将用户ID写进文件
+                        editor.putString("trueName",nameEdt.getText().toString());//将姓名写进文件
+                        editor.putString("schoolId",studentIdEdt.getText().toString());//将学号写进文件
                         editor.apply();
 
                         //执行登录处理，发送两个信息
