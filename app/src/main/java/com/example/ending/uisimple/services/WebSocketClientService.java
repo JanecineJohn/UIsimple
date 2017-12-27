@@ -9,16 +9,35 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.ending.uisimple.MainActivity;
+import com.example.ending.uisimple.R;
+import com.example.ending.uisimple.javabean.AppInfo;
 import com.example.ending.uisimple.javabean.Chatter;
+import com.example.ending.uisimple.utils.getAppInfo;
+import com.example.ending.uisimple.utils.mBase64;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+import static com.example.ending.uisimple.utils.mBase64.DrawableToString;
 
 public class WebSocketClientService extends Service {
     WebSocketClient mWebSocketClient;
@@ -26,7 +45,9 @@ public class WebSocketClientService extends Service {
     String address;//服务器地址
     String trueName;//姓名
     String schoolId;//学号
+    long startTime;//进入课堂的时间
     int classId;//课堂id
+
 
     @Nullable
     @Override
@@ -56,6 +77,7 @@ public class WebSocketClientService extends Service {
     public void onCreate() {
         super.onCreate();
         Log.i("Service的onCreate：","启动");
+
     }
 
     @Override
@@ -77,6 +99,7 @@ public class WebSocketClientService extends Service {
                             SharedPreferences pref = getSharedPreferences("userInfo",MODE_PRIVATE);
                             trueName = pref.getString("trueName","");
                             schoolId = pref.getString("schoolId","无");
+                            startTime = pref.getLong("enterTime",99999999);
                             Chatter chatter = new Chatter(trueName,schoolId,true,"进入课堂(系统信息)",classId);
                             String chatterJson = new Gson().toJson(chatter);
                             sendMsg(chatterJson);
@@ -92,6 +115,9 @@ public class WebSocketClientService extends Service {
                                 boolean isStudent = jsonObject.getBoolean("isStudent");
                                 if (isClose && !isStudent){
                                     //如果isClose为真，isStudent为假，代表这条信息是老师发的关闭课堂消息
+                                    sendInfomation();//发送数据到服务器，关闭课堂
+
+                                    //发送关闭信息到聊天室，其实可以省略
                                     Chatter closeChat = new Chatter("系统信息","",false,"已断开连接",classId);//构建系统信息
                                     String closeJson = new Gson().toJson(closeChat);
                                     Intent intent = new Intent
@@ -142,5 +168,61 @@ public class WebSocketClientService extends Service {
     //发送信息
     public void sendMsg(String msg){
         mWebSocketClient.send(msg);
+    }
+
+    //当课堂关闭时，发送学生手机使用情况到服务器
+    /**思路：先把JsonArray创建好(里面涉及到图片转String)，
+     * 然后这个JsonArray和课堂号等一起组成一个JsonObject*/
+    public JSONObject endClassObject(){
+        JSONObject endClassInfo = new JSONObject();
+        try{
+            JSONArray jsonArray = new JSONArray();
+            List<AppInfo> infoList = new getAppInfo().getappinfo(WebSocketClientService.this,startTime);//获取进入课堂到结束课堂这段时间内手机使用情况集合
+            for (int i=0;i<infoList.size();i++){
+                JSONObject jsonObject = new JSONObject();
+                AppInfo appInfo = infoList.get(i);//拿到每一个手机应用信息
+
+                String appIcon = DrawableToString(appInfo.getAppIcon());//获得图标,并转成String,长度约3W
+                String appLabel = appInfo.getAppLabel();//获得名称
+                long appUsedTime = appInfo.getAppUsedTime();//获得使用时长
+
+                jsonObject.put("appIcon",appIcon);
+                jsonObject.put("appLabel",appLabel);
+                jsonObject.put("appUsedTime",appUsedTime);
+                jsonArray.put(jsonObject);//for循环结束后，jsonArray就创建好了
+            }
+            SharedPreferences pref = getSharedPreferences("userInfo",MODE_PRIVATE);
+            endClassInfo.put("userId",pref.getString("userId",""));
+            endClassInfo.put("classId",pref.getInt("classId",0));
+            endClassInfo.put("appInfoList",jsonArray);//将手机应用信息放入JsonObject
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        return endClassInfo;
+    }
+
+    public void sendInfomation(){
+        String url = getResources().getString(R.string.endClassAddress);
+        MediaType JSON = MediaType.parse("application/json;charset=utf-8");
+        RequestBody body = RequestBody.create(JSON,endClassObject().toString());
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .build();
+        OkHttpClient client = new OkHttpClient();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                String errorMsg = e.toString();
+                Log.i("无法接收返回信息",errorMsg);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String responseMsg = response.body().string();
+                Intent intent = new Intent("com.example.dell.broadcast.mySituation_FINISH");
+                sendBroadcast(intent);
+            }
+        });
     }
 }

@@ -5,12 +5,14 @@ import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.ending.uisimple.javabean.AppInfo;
@@ -41,8 +43,9 @@ import java.util.List;
  * */
 
 public class getAppInfo {
-    public List getappinfo(final Context context){
+    public List getappinfo(final Context context,long startTime){
         List<AppInfo> appInfoList = new ArrayList<>();
+        SharedPreferences preferences = context.getSharedPreferences("appInfo",Context.MODE_PRIVATE);
         //加入版本控制
 //        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
 //            ActivityManager activityManager =
@@ -57,7 +60,6 @@ public class getAppInfo {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
 
             //获取一段时间内(40分钟)手机应用的运行情况,把详细信息放到list中
-            PackageManager pm = context.getPackageManager();
             ApplicationInfo appInformation;//存放应用详细信息
             Drawable appIcon;//存放应用图标
             String PN;//存放应用名称
@@ -65,9 +67,10 @@ public class getAppInfo {
             AppInfo appInfo;//AppInfo实例，用来存储图标，名称和时间
             UsageStatsManager usm = (UsageStatsManager)
                     context.getSystemService(Context.USAGE_STATS_SERVICE);
+            PackageManager pm = context.getPackageManager();//包管理器，从包名获取应用信息(包括图标以及名称)
             //startTime和endTime指的是这一段时间内系统日志里的信息(因为系统日志信息时不时更新，所以时间间隔太短会导致获取信息为空)
             long endTime = System.currentTimeMillis();
-            long startTime = endTime - 40*60*1000;
+            //long startTime = endTime - 40*60*1000;
             List<UsageStats> list = usm.queryUsageStats
                     (UsageStatsManager.INTERVAL_DAILY,startTime,endTime);
 
@@ -104,7 +107,7 @@ public class getAppInfo {
                 //用循环的方式将每一个应用信息提取出来
                 for (UsageStats usageStats : list){
                     //获取此应用最近一次使用时间，并和开始监测时间作比较
-                    long LTS = usageStats.getLastTimeStamp();
+                    long LTS = usageStats.getLastTimeUsed();
                     if (LTS > startTime){
                         try {
                             //根据包名取得应用的详细信息，放在ApplicationInfo对象中
@@ -113,8 +116,12 @@ public class getAppInfo {
                             PN = pm.getApplicationLabel(appInformation).toString();
                             appIcon = pm.getApplicationIcon(appInformation);
 
-                            str_LTS = sdf.format(new Date(LTS));
-                            appInfo = new AppInfo(appIcon,PN,str_LTS);
+                            //获取本堂课使用的时间
+                            long appUsedTime = usageStats.getTotalTimeInForeground();
+                            appUsedTime = appUsedTime - preferences.getLong(usageStats.getPackageName(),0);
+
+                            //str_LTS = sdf.format(new Date(LTS));
+                            appInfo = new AppInfo(appIcon,PN,appUsedTime);
                             appInfoList.add(appInfo);
                         } catch (PackageManager.NameNotFoundException e) {
                             e.printStackTrace();
@@ -135,4 +142,27 @@ public class getAppInfo {
         return appInfoList;
     }
     /**获取App方法完成*/
+
+    //进入课堂前先记录手机各应用已使用时间到文件
+    public void clearUsedTime(Context context){
+        //获得应用管理器
+        UsageStatsManager usm = (UsageStatsManager)
+                context.getSystemService(Context.USAGE_STATS_SERVICE);
+        //使用应用管理器的query方法查询符合条件的应用，返回一个list<UsageStats>
+        long endTime = System.currentTimeMillis();
+        List<UsageStats> list = usm.queryUsageStats
+                (UsageStatsManager.INTERVAL_DAILY,endTime-60*60*1000,endTime);
+        if (list.size()==0){
+            context.startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS));
+        }
+
+        //逐个取出集合的元素，将累计使用时长写入文件
+        for (UsageStats usageStats : list){
+            //到目前为止，此应用的总使用时长
+            //Log.i("包名：" + usageStats.getPackageName(),"时间戳" + usageStats.getTotalTimeInForeground()+"");
+            SharedPreferences.Editor editor = context.getSharedPreferences("appInfo",Context.MODE_PRIVATE).edit();
+            editor.putLong(usageStats.getPackageName(),usageStats.getTotalTimeInForeground());//将总使用时长放入文件，键为包名(唯一)
+            editor.apply();
+        }
+    }
 }

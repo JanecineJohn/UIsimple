@@ -39,6 +39,7 @@ public class mySituation extends Fragment {
     View view;
     Button authorize;
     RecyclerView recyclerView;
+    long startTime;//进入课堂的时间
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -50,7 +51,14 @@ public class mySituation extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         //Log.i("mySituation","onActivityCreate开启");
+        startTime = getActivity().getSharedPreferences("userInfo",Context.MODE_PRIVATE).getLong("enterTime",99999999);
         initView();//初始化界面组件
+    }
+
+    //据说要用到这个
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
     }
 
     @Override
@@ -59,7 +67,7 @@ public class mySituation extends Fragment {
         //Log.i("mySituation","onResume开启");
         List<AppInfo> appInfoList;//新建一个集合存放getappinfo()返回的app详细信息集合
         getAppInfo get = new getAppInfo();//创建一个getAppInfo实例，里面有获取app详细信息并返回的方法
-        appInfoList = get.getappinfo(getActivity());//获得App使用情况
+        appInfoList = get.getappinfo(getActivity(),startTime);//获得App使用情况
         LinearLayoutManager layoutManager =
                 new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);

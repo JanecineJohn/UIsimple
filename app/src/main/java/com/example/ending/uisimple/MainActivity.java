@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.example.ending.uisimple.javabean.Joinner;
 import com.example.ending.uisimple.javabean.MidJoinner;
 import com.example.ending.uisimple.javabean.User;
+import com.example.ending.uisimple.utils.getAppInfo;
 import com.example.ending.uisimple.utils.postJson;
 import com.google.gson.Gson;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     String scanResult;//扫描结果,聊天室地址
     String uid;//学生id
     int classId;//课堂号
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -299,10 +301,10 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         //把用户名存储到sharedPreference文件
-                        SharedPreferences.Editor editor =
-                                getSharedPreferences("userInfo",MODE_PRIVATE).edit();
+                        SharedPreferences.Editor editor = getSharedPreferences("userInfo",MODE_PRIVATE).edit();
                         editor.putString("trueName",nameEdt.getText().toString());//将姓名写进文件
                         editor.putString("schoolId",studentIdEdt.getText().toString());//将学号写进文件
+                        editor.putInt("classId",classId);//将课堂号写进文件
                         editor.apply();
 
                         //执行登录处理，发送两个信息
@@ -342,6 +344,12 @@ public class MainActivity extends AppCompatActivity {
                 final String responseMessage = response.body().string();
                 Log.i("主界面，joinner模块：",responseMessage);
                 if (responseMessage.equals("successful")){
+                    new getAppInfo().clearUsedTime(MainActivity.this);//扫码进入课堂前，先记录应用使用时间
+                    //扫码进入课堂前，先将进入课堂的时间戳写入用户文件
+                    SharedPreferences.Editor editor = getSharedPreferences("userInfo",MODE_PRIVATE).edit();
+                    editor.putLong("enterTime",System.currentTimeMillis()-10*1000);
+                    editor.apply();
+
                     Intent intent=new Intent(MainActivity.this,StudentOTCActivity.class);
                     intent.putExtra("address",scanResult);
                     intent.putExtra("classId",classId);

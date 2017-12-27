@@ -32,13 +32,13 @@ public class appInfoAdapter extends RecyclerView.Adapter<appInfoAdapter.ViewHold
 
         ImageView app_Icon;
         TextView app_Label;
-        TextView app_LTS;
+        TextView app_UTS;
 
         public ViewHolder(View itemView) {
             super(itemView);
             app_Icon = itemView.findViewById(R.id.app_Icon);
             app_Label = itemView.findViewById(R.id.app_Label);
-            app_LTS = itemView.findViewById(R.id.app_LTS);
+            app_UTS = itemView.findViewById(R.id.app_UsedTime);
         }
     }
 
@@ -68,7 +68,12 @@ public class appInfoAdapter extends RecyclerView.Adapter<appInfoAdapter.ViewHold
         AppInfo info = appInfoList.get(position);
         holder.app_Icon.setImageDrawable(info.getAppIcon());
         holder.app_Label.setText(info.getAppLabel());
-        holder.app_LTS.setText("最近使用：" + info.getAppLTS());
+        long usedTime = info.getAppUsedTime();
+        long usedTime_H = usedTime/(60*60*1000);
+        long usedTime_M = (usedTime-usedTime_H*(60*60*1000))/(60*1000);
+        long usedTime_S = (usedTime-(usedTime_H*60*60*1000)-(usedTime_M*60*1000))/1000;
+        holder.app_UTS.setText("使用时长：" + usedTime_H + "时" +
+                usedTime_M + "分" + usedTime_S + "秒");
     }
 
     @Override

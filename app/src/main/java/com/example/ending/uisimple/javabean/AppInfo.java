@@ -11,11 +11,12 @@ public class AppInfo {
     private Drawable appIcon;
     private String appLabel;
     private String appLTS;
+    private long appUsedTime;
 
-    public AppInfo(Drawable appIcon,String appLabel,String appLTS){
+    public AppInfo(Drawable appIcon,String appLabel,long appUsedTime){
         this.appIcon = appIcon;
         this.appLabel = appLabel;
-        this.appLTS = appLTS;
+        this.appUsedTime = appUsedTime;
     }
 
     public String getAppLabel(){
@@ -38,4 +39,7 @@ public class AppInfo {
     public void setAppLTS(String appLTS){
         this.appLTS = appLTS;
     }
+
+    public long getAppUsedTime(){return appUsedTime;}
+    public void setAppUsedTime(long appUsedTime){this.appUsedTime = appUsedTime;}
 }
