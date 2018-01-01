@@ -139,40 +139,51 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 try {
-                    Log.d("接收到返回信息","用户信息准备写入文件");
+                    //Log.d("接收到返回信息","用户信息准备写入文件");
+                    final String responseMsg = response.body().string();
+                    Log.i("登录界面",responseMsg);
                     Gson gson = new Gson();
-                    JSONObject jsonObject = new JSONObject(response.body().string());
-                    User userResult = gson.fromJson(jsonObject.toString(),User.class);
-                    userResult.getUsername();//获取返回的用户名
-                    userResult.getUid();//获取返回的用户ID
-                    SharedPreferences.Editor editor =
-                            getSharedPreferences("userInfo",MODE_PRIVATE).edit();
-                    editor.putString("userId",userResult.getUid());//将用户ID写进文件
-                    editor.putString("userName",userResult.getUsername());//将用户名写进文件
-                    //editor.putString("trueName",userResult.getTrueName());
-                    editor.apply();
-                    Log.d("接收到返回信息","用户信息已经写入文件");
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Locale locale = getResources().getConfiguration().locale;
-                            String language = locale.getLanguage();
-                            if(language.equals("zh"))
-                            {
-                                Toast.makeText(LoginActivity.this,"登陆成功",Toast.LENGTH_LONG).show();
+                    JSONObject jsonObject = new JSONObject(responseMsg);
+                    if (!jsonObject.has("errors")){
+                        User userResult = gson.fromJson(jsonObject.toString(),User.class);
+//                    userResult.getUsername();//获取返回的用户名
+//                    userResult.getUid();//获取返回的用户ID
+                        SharedPreferences.Editor editor =
+                                getSharedPreferences("userInfo",MODE_PRIVATE).edit();
+                        editor.putString("uid",userResult.getUid());//将用户ID写进文件
+                        editor.putString("userName",userResult.getUsername());//将用户名写进文件
+                        //editor.putString("trueName",userResult.getTrueName());
+                        editor.apply();
+                        Log.d("接收到返回信息","用户信息已经写入文件");
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Locale locale = getResources().getConfiguration().locale;
+                                String language = locale.getLanguage();
+                                if(language.equals("zh"))
+                                {
+                                    Toast.makeText(LoginActivity.this,"登陆成功",Toast.LENGTH_LONG).show();
+                                }
+                                else
+                                {
+                                    Toast.makeText(LoginActivity.this, "Login Successfully", Toast.LENGTH_LONG).show();
+                                }
                             }
-                            else
-                            {
-                                Toast.makeText(LoginActivity.this, "Login Successfully", Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
-                    Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                    startActivity(intent);
-                    LoginActivity.this.finish();
+                        });
+                        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                        startActivity(intent);
+                        LoginActivity.this.finish();
 //                    intent.putExtra("extra_data","num_name");
 //                    setResult(1,intent);
 //                    LoginActivity.this.finish();
+                    }else {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(LoginActivity.this,responseMsg,Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

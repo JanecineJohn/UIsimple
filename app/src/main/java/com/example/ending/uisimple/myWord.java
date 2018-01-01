@@ -39,7 +39,7 @@ public class myWord extends Fragment {
     EditText editMessage;
     Button send;
 
-    String userId;//用户Id
+    String uid;//用户Id
     String userName;//用户名
     String trueName;//真实姓名
     int classId;//课堂id;
@@ -60,7 +60,7 @@ public class myWord extends Fragment {
 
         //初始化用户id和用户名
         SharedPreferences pref = getActivity().getSharedPreferences("userInfo",Context.MODE_PRIVATE);
-        userId = pref.getString("userId","");
+        uid = pref.getString("uid","");
         userName = pref.getString("userName","");
         trueName = pref.getString("trueName","");
         //trueName = pref.getString("trueName","");

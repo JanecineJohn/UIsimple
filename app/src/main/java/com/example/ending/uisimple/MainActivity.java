@@ -238,7 +238,7 @@ public class MainActivity extends AppCompatActivity {
             {
                 //先检查用户信息，判断是否有登录
                 SharedPreferences pref = getSharedPreferences("userInfo",MODE_PRIVATE);
-                uid = pref.getString("userId","");
+                uid = pref.getString("uid","");
                 String userName = pref.getString("userName","");
 
                 if (uid.equals("") || userName.equals("")){

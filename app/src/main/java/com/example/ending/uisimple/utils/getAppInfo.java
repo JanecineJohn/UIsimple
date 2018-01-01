@@ -19,6 +19,7 @@ import com.example.ending.uisimple.javabean.AppInfo;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -43,6 +44,7 @@ import java.util.List;
  * */
 
 public class getAppInfo {
+
     public List getappinfo(final Context context,long startTime){
         List<AppInfo> appInfoList = new ArrayList<>();
         SharedPreferences preferences = context.getSharedPreferences("appInfo",Context.MODE_PRIVATE);
@@ -136,6 +138,7 @@ public class getAppInfo {
 
                     }
                 }
+                Collections.sort(appInfoList);//对infoList集合排序
             }
         }
 

@@ -37,6 +37,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static com.example.ending.uisimple.utils.clearPreferences.clearAppInfo;
 import static com.example.ending.uisimple.utils.mBase64.DrawableToString;
 
 public class WebSocketClientService extends Service {
@@ -192,8 +193,10 @@ public class WebSocketClientService extends Service {
                 jsonArray.put(jsonObject);//for循环结束后，jsonArray就创建好了
             }
             SharedPreferences pref = getSharedPreferences("userInfo",MODE_PRIVATE);
-            endClassInfo.put("userId",pref.getString("userId",""));
+            endClassInfo.put("uid",pref.getString("uid",""));
             endClassInfo.put("classId",pref.getInt("classId",0));
+            endClassInfo.put("trueName",pref.getString("trueName",""));
+            endClassInfo.put("schoolId",pref.getString("schoolId",""));
             endClassInfo.put("appInfoList",jsonArray);//将手机应用信息放入JsonObject
         }catch (JSONException e){
             e.printStackTrace();
@@ -220,8 +223,12 @@ public class WebSocketClientService extends Service {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String responseMsg = response.body().string();
-                Intent intent = new Intent("com.example.dell.broadcast.mySituation_FINISH");
-                sendBroadcast(intent);
+                //返回信息，说明上传信息成功
+                if (responseMsg.equals("successful")){
+                    clearAppInfo(WebSocketClientService.this);//上传成功，删除本次的APP信息
+                    Intent intent = new Intent("com.example.dell.broadcast.mySituation_FINISH");
+                    sendBroadcast(intent);
+                }
             }
         });
     }

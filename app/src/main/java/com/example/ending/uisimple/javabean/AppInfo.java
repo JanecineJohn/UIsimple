@@ -1,13 +1,14 @@
 package com.example.ending.uisimple.javabean;
 
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 
 /**
  * Created by dell on 2017/12/22.
  * * set系列方法暂时无用
  */
 
-public class AppInfo {
+public class AppInfo implements Comparable<AppInfo>{
     private Drawable appIcon;
     private String appLabel;
     private String appLTS;
@@ -42,4 +43,13 @@ public class AppInfo {
 
     public long getAppUsedTime(){return appUsedTime;}
     public void setAppUsedTime(long appUsedTime){this.appUsedTime = appUsedTime;}
+
+    @Override
+    public int compareTo(@NonNull AppInfo appInfo) {
+        if (this.getAppUsedTime()-appInfo.getAppUsedTime() > 0){
+            return -1;
+        }else {
+            return 1;
+        }
+    }
 }
