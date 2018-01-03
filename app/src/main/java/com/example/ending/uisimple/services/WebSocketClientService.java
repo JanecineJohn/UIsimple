@@ -1,11 +1,13 @@
 package com.example.ending.uisimple.services;
 
 import android.app.Service;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -38,6 +40,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import static com.example.ending.uisimple.utils.clearPreferences.clearAppInfo;
+import static com.example.ending.uisimple.utils.clearPreferences.clearUserInfo;
 import static com.example.ending.uisimple.utils.mBase64.DrawableToString;
 
 public class WebSocketClientService extends Service {
@@ -218,6 +221,22 @@ public class WebSocketClientService extends Service {
             public void onFailure(Call call, IOException e) {
                 String errorMsg = e.toString();
                 Log.i("无法接收返回信息",errorMsg);
+                new AlertDialog.Builder(WebSocketClientService.this)
+                        .setTitle("请检查网络")
+                        .setMessage("无法上传信息，将被视为没有上课")
+                        .setPositiveButton("重新上传", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                sendInfomation();
+                            }
+                        })
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        })
+                        .show();
             }
 
             @Override
@@ -226,6 +245,7 @@ public class WebSocketClientService extends Service {
                 //返回信息，说明上传信息成功
                 if (responseMsg.equals("successful")){
                     clearAppInfo(WebSocketClientService.this);//上传成功，删除本次的APP信息
+                    clearUserInfo(WebSocketClientService.this);//删除本次课堂号等信息
                     Intent intent = new Intent("com.example.dell.broadcast.mySituation_FINISH");
                     sendBroadcast(intent);
                 }

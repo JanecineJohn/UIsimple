@@ -75,6 +75,7 @@ public class myWord extends Fragment {
         //获得扫描得到的服务器地址
         String address = getActivity().getIntent().getStringExtra("address");
         classId = getActivity().getIntent().getIntExtra("classId",0);
+
         Log.i("myWord的服务器地址：",address);
         Log.i("myWord的课堂号：",classId + "");
 

@@ -44,6 +44,9 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
+import static com.example.ending.uisimple.utils.clearPreferences.clearAppInfo;
+import static com.example.ending.uisimple.utils.clearPreferences.clearUserInfo;
+
 
 public class MainActivity extends AppCompatActivity {
     DrawerLayout MainUI;
@@ -60,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Toast.makeText(MainActivity.this,"onCreate方法启动",Toast.LENGTH_SHORT).show();
         setContentView(R.layout.activity_main);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             //透明状态栏
@@ -80,13 +84,99 @@ public class MainActivity extends AppCompatActivity {
             MyBaseAdapter mAdapter=new MyBaseAdapter();
             mListView.setAdapter(mAdapter);
 
+
         }
     }
 
-    //每次重新回到主界面回调此方法
+    //当界面从不可见变为可见时，判断有无旧课堂信息
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //Log.i("主界面","onStart方法");
+        //Toast.makeText(MainActivity.this,"onStart方法启动",Toast.LENGTH_SHORT).show();
+        SharedPreferences pref = getSharedPreferences("userInfo",MODE_PRIVATE);
+        if (pref.getInt("classId",0) > 0){
+            new AlertDialog.Builder(MainActivity.this)
+                    .setTitle("旧课堂")
+                    .setMessage("是否要回到上一个课堂")
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            SharedPreferences pref = getSharedPreferences("userInfo",MODE_PRIVATE);
+                            scanResult = pref.getString("webAddress","");
+                            classId = pref.getInt("classId",0);
+                            uid = pref.getString("uid","");
+                            if (uid.equals("")){
+                                Toast.makeText(MainActivity.this,"信息不完整，无法加入课堂",Toast.LENGTH_SHORT).show();
+                            }else {
+                                MidJoinner midJoinner = new MidJoinner(pref.getString("trueName",""),pref.getString("schoolId",""));
+                                String mid = new Gson().toJson(midJoinner);
+                                Joinner joinner = new Joinner(uid,classId,mid);
+                                sendJoinClassHttp(joinner);
+                            }
+                        }
+                    })
+                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            clearAppInfo(MainActivity.this);
+                            clearUserInfo(MainActivity.this);
+                        }
+                    })
+                    .show();
+        }
+    }
+
+    //每次重新回到主界面(主界面获得焦点)时回调此方法
     @Override
     protected void onResume() {
         super.onResume();
+        //Toast.makeText(MainActivity.this,"onResume方法启动onResume方法启动",Toast.LENGTH_LONG).show();
+        Button loginBt = (Button) findViewById(R.id.LoginButton);//初始化登录按钮
+        //先检查用户信息，判断是否有登录
+        SharedPreferences pref = getSharedPreferences("userInfo",MODE_PRIVATE);
+        uid = pref.getString("uid","");
+        String userName = pref.getString("userName","");
+        if (uid.equals("") || userName.equals("")){
+            loginBt.setText("立即登录");
+            loginBt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent=new Intent(MainActivity.this,LoginActivity.class);
+                    startActivityForResult(intent,1);
+                }
+            });
+        }else {
+            loginBt.setText("注销");
+            loginBt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //弹出对话框与用户交互
+                    new AlertDialog.Builder(MainActivity.this)
+                            .setTitle("登出")
+                            .setMessage("你确定登出此账号吗？")
+                            .setCancelable(false)
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    SharedPreferences.Editor editor = getSharedPreferences("userInfo",MODE_PRIVATE).edit();
+                                    editor.clear();
+                                    editor.apply();
+                                    startActivity(new Intent(MainActivity.this,MainActivity.class));
+                                    MainActivity.this.finish();
+                                }
+                            })
+                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            })
+                            .show();
+                }
+            });
+        }
+
     }
 
     @Override
@@ -98,16 +188,19 @@ public class MainActivity extends AppCompatActivity {
             if (intentResult.getContents() == null){
                 Toast.makeText(MainActivity.this,"内容为空",Toast.LENGTH_SHORT).show();
             }else {
-                Toast.makeText(MainActivity.this,"扫描成功",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this,"扫描成功",Toast.LENGTH_SHORT).show();
                 //ScanResult为获取到的字符串(聊天室地址)
                 scanResult = intentResult.getContents();
+                //Toast.makeText(MainActivity.this,scanResult,Toast.LENGTH_SHORT).show();
                 String regex = "(?<=\\bonClass/)\\d+\\b";//匹配出课堂id
                 Pattern pattern = Pattern.compile(regex);
                 Matcher matcher = pattern.matcher(scanResult);
                 if (matcher.find()){
                     classId = Integer.parseInt(matcher.group());
+                    dialogView();
+                }else {
+                    Toast.makeText(MainActivity.this,"无法匹配课堂号",Toast.LENGTH_SHORT).show();
                 }
-                dialogView();
 //                Intent intent=new Intent(MainActivity.this,StudentOTCActivity.class);
 //                intent.putExtra("address",scanResult);
 //                startActivity(intent);
@@ -238,7 +331,7 @@ public class MainActivity extends AppCompatActivity {
             {
                 //先检查用户信息，判断是否有登录
                 SharedPreferences pref = getSharedPreferences("userInfo",MODE_PRIVATE);
-                uid = pref.getString("uid","");
+                //uid = pref.getString("uid","");
                 String userName = pref.getString("userName","");
 
                 if (uid.equals("") || userName.equals("")){
@@ -252,12 +345,12 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
             }
-            case R.id.LoginButton:
+            /*case R.id.LoginButton:
             {
                 Intent intent=new Intent(MainActivity.this,LoginActivity.class);
                 startActivityForResult(intent,1);
                 break;
-            }
+            }*/
             case R.id.RegisterButton:
             {
                 Intent intent=new Intent(MainActivity.this,RegisterActivity.class);
@@ -300,13 +393,16 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton("签到", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        //把用户名存储到sharedPreference文件
+                        //把用户名存储到sharedPreference文件,并清除以前的应用使用时间
+                        new getAppInfo().clearUsedTime(MainActivity.this);//扫码进入课堂前，先记录应用已经使用的时长
                         SharedPreferences.Editor editor = getSharedPreferences("userInfo",MODE_PRIVATE).edit();
                         editor.putString("trueName",nameEdt.getText().toString());//将姓名写进文件
                         editor.putString("schoolId",studentIdEdt.getText().toString());//将学号写进文件
+                        editor.putString("webAddress",scanResult);//将课堂地址写进文件
                         editor.putInt("classId",classId);//将课堂号写进文件
+                        editor.putLong("enterTime",System.currentTimeMillis()-10*1000);//将进入课堂的时间戳写入用户文件
                         editor.apply();
-
+                        //Toast.makeText(MainActivity.this,classId+" IN TEST",Toast.LENGTH_SHORT).show();
                         //执行登录处理，发送两个信息
                         MidJoinner midJoinner = new MidJoinner(nameEdt.getText().toString(),studentIdEdt.getText().toString());
                         String mid = new Gson().toJson(midJoinner);
@@ -325,7 +421,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void sendJoinClassHttp(Joinner joinner){
-        String url = getResources().getString(R.string.joinClassAddress);//服务器注册地址
+        String url = getResources().getString(R.string.joinClassAddress);//服务器地址
         postJson post = new postJson();//创建一个post对象，准备向服务器发送请求
         post.postJoinClassHttp(url,joinner).enqueue(new Callback() {
             @Override
@@ -344,11 +440,11 @@ public class MainActivity extends AppCompatActivity {
                 final String responseMessage = response.body().string();
                 Log.i("主界面，joinner模块：",responseMessage);
                 if (responseMessage.equals("successful")){
-                    new getAppInfo().clearUsedTime(MainActivity.this);//扫码进入课堂前，先记录应用使用时间
-                    //扫码进入课堂前，先将进入课堂的时间戳写入用户文件
-                    SharedPreferences.Editor editor = getSharedPreferences("userInfo",MODE_PRIVATE).edit();
-                    editor.putLong("enterTime",System.currentTimeMillis()-10*1000);
-                    editor.apply();
+//                    new getAppInfo().clearUsedTime(MainActivity.this);//扫码进入课堂前，先记录应用使用时间
+//                    //扫码进入课堂前，先将进入课堂的时间戳写入用户文件
+//                    SharedPreferences.Editor editor = getSharedPreferences("userInfo",MODE_PRIVATE).edit();
+//                    editor.putLong("enterTime",System.currentTimeMillis()-10*1000);
+//                    editor.apply();
 
                     Intent intent=new Intent(MainActivity.this,StudentOTCActivity.class);
                     intent.putExtra("address",scanResult);

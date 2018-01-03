@@ -170,8 +170,8 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             }
                         });
-                        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                        startActivity(intent);
+//                        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+//                        startActivity(intent);
                         LoginActivity.this.finish();
 //                    intent.putExtra("extra_data","num_name");
 //                    setResult(1,intent);

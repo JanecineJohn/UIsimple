@@ -9,6 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import static com.example.ending.uisimple.utils.clearPreferences.clearAppInfo;
+import static com.example.ending.uisimple.utils.clearPreferences.clearUserInfo;
+
 public class StudentOTCActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;//标签栏
@@ -37,6 +40,8 @@ public class StudentOTCActivity extends AppCompatActivity {
                 .setPositiveButton("退出", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        clearAppInfo(StudentOTCActivity.this);
+                        clearUserInfo(StudentOTCActivity.this);//清除缓存
                         finish();
                     }
                 })

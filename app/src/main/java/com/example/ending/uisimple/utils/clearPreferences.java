@@ -19,6 +19,7 @@ public class clearPreferences {
         //删除enterTime,classId,trueName,schoolId,
         SharedPreferences.Editor editor = context.getSharedPreferences("userInfo",Context.MODE_PRIVATE).edit();
         editor.remove("enterTime");
+        editor.remove("webAddress");
         editor.remove("classId");
         editor.remove("trueName");
         editor.remove("schoolId");
