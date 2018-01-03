@@ -37,7 +37,6 @@ public class mySituation extends Fragment {
 
     finishActivityReceiver receiver;
     View view;
-    Button authorize;
     RecyclerView recyclerView;
     long startTime;//进入课堂的时间
     public View onCreateView(LayoutInflater inflater,
@@ -96,15 +95,6 @@ public class mySituation extends Fragment {
 
 
         recyclerView = view.findViewById(R.id.appInfo_Rv);
-        authorize = view.findViewById(R.id.authorize);
-
-        authorize.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
-                startActivity(intent);
-            }
-        });
     }
 
     //内部类，用于接收webSocket发出的广播
