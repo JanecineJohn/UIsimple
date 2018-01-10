@@ -55,55 +55,6 @@ public class LoginActivity extends AppCompatActivity {
                 userLogin.setUsername(username.getText().toString().trim());
                 userLogin.setPassword(password.getText().toString().trim());
                 sendLoginHttp(userLogin);//调用此方法,将用户名密码发到服务器
-                /**test*/
-                /*if(username.getText().toString().equals("admin")&&password.getText().toString().equals("admin"))
-                {
-                    if(language.equals("zh"))
-                    {
-                        Toast.makeText(this,"登陆成功",Toast.LENGTH_LONG).show();
-                    }
-                    else
-                    {
-                        Toast.makeText(this, "Login Successfully", Toast.LENGTH_LONG).show();
-                    }
-                    Intent intent = new Intent();
-                    intent.putExtra("extra_data","num_name");
-                    setResult(1,intent);
-                    this.finish();
-                    break;
-                }
-                else
-                {
-                    flag--;
-                    if(flag==0)
-                    {
-                        if(language.equals("zh"))
-                        {
-                            Toast.makeText(this,"错误三次，假装你已被ban",Toast.LENGTH_LONG).show();
-                        }
-                        else
-                        {
-                            Toast.makeText(this, "three times wrong,you have been banned", Toast.LENGTH_LONG).show();
-                        }
-                        loginButton=(Button) findViewById(R.id.button);
-                        loginButton.setEnabled(false);
-                        loginButton.setBackgroundColor(Color.parseColor("#9E9E9E"));
-                        loginButton.setBackgroundResource(R.drawable.false_button_selector);
-                        break;
-                    }
-                    else
-                    {
-                        if(language.equals("zh"))
-                        {
-                            Toast.makeText(this,"账号或密码错误，可再尝试"+flag+"次。",Toast.LENGTH_SHORT).show();
-                        }
-                        else
-                        {
-                            Toast.makeText(this, "username or password is wrong.You can try "+(flag)+" more times", Toast.LENGTH_SHORT).show();
-                        }
-                        break;
-                    }
-                }*/
                 break;
             }
             case R.id.LoginBack:

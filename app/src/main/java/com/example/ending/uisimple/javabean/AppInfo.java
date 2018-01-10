@@ -20,6 +20,12 @@ public class AppInfo implements Comparable<AppInfo>{
         this.appUsedTime = appUsedTime;
     }
 
+    public AppInfo(Drawable appIcon,String appLabel,String appLTS){
+        this.appIcon = appIcon;
+        this.appLabel = appLabel;
+        this.appLTS = appLTS;
+    }
+
     public String getAppLabel(){
         return appLabel;
     }

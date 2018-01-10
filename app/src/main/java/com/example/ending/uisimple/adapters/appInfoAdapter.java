@@ -51,15 +51,6 @@ public class appInfoAdapter extends RecyclerView.Adapter<appInfoAdapter.ViewHold
         View view = LayoutInflater.from(mContext).inflate(R.layout.appinfo_view,
                 parent,false);
         final ViewHolder holder = new ViewHolder(view);//利用view创建一个ViewHolder实例
-        //可以为ViewHolder及它里面的组件设置点击事件(以下用图标为例)：
-        /*holder.app_Icon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //获取点击的图片位置
-                int position = holder.getAdapterPosition();
-                AppInfo info = appInfoList.get(position);
-            }
-        });*/
         return holder;
     }
 

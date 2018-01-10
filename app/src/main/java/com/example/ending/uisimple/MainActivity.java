@@ -40,6 +40,8 @@ import java.lang.reflect.Field;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -56,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private String[]names={"获取老师端历史记录的日期"};
     private String[][]students={{"一个日期对应一节课的所有学生的应用使用记录，记录就放在这里"}};
 
-    String scanResult;//扫描结果,聊天室地址
+    String webAddress;//扫描结果,聊天室地址
     String uid;//学生id
     int classId;//课堂号
 
@@ -103,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             SharedPreferences pref = getSharedPreferences("userInfo",MODE_PRIVATE);
-                            scanResult = pref.getString("webAddress","");
+                            webAddress = pref.getString("webAddress","");
                             classId = pref.getInt("classId",0);
                             uid = pref.getString("uid","");
                             if (uid.equals("")){
@@ -139,6 +141,19 @@ public class MainActivity extends AppCompatActivity {
         String userName = pref.getString("userName","");
         if (uid.equals("") || userName.equals("")){
             loginBt.setText("立即登录");
+            TextView nameinfact=(TextView)findViewById(R.id.nameinfact);
+            TextView numinfact=(TextView)findViewById(R.id.numinfact);
+            nameinfact.setEnabled(false);
+            numinfact.setEnabled(false);
+            nameinfact.setVisibility(View.VISIBLE);
+            numinfact.setVisibility(View.VISIBLE);
+            CircleImageView Head=(CircleImageView)findViewById(R.id.Head);
+            Head.setVisibility(View.INVISIBLE);
+            mListView.setVisibility(View.INVISIBLE);
+            TextView temptv=(TextView)findViewById(R.id.checkhistory);
+            temptv.setText("登录查看历史记录");
+            Button RegisterButton=(Button)findViewById(R.id.RegisterButton);
+            RegisterButton.setText("注册");
             loginBt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -175,6 +190,21 @@ public class MainActivity extends AppCompatActivity {
                             .show();
                 }
             });
+            TextView nameinfact=(TextView)findViewById(R.id.nameinfact);
+            TextView numinfact=(TextView)findViewById(R.id.numinfact);
+            TextView userNameTv = (TextView) findViewById(R.id.userNameTv);
+            nameinfact.setEnabled(false);
+            numinfact.setEnabled(false);
+            nameinfact.setVisibility(View.INVISIBLE);
+            numinfact.setVisibility(View.INVISIBLE);
+            userNameTv.setText(userName);
+            CircleImageView Head=(CircleImageView)findViewById(R.id.Head);
+            Head.setVisibility(View.VISIBLE);
+            mListView.setVisibility(View.VISIBLE);
+            TextView temptv=(TextView)findViewById(R.id.checkhistory);
+            temptv.setText("历史记录");
+            Button RegisterButton=(Button)findViewById(R.id.RegisterButton);
+            RegisterButton.setText("");
         }
 
     }
@@ -190,21 +220,24 @@ public class MainActivity extends AppCompatActivity {
             }else {
                 //Toast.makeText(MainActivity.this,"扫描成功",Toast.LENGTH_SHORT).show();
                 //ScanResult为获取到的字符串(聊天室地址)
-                scanResult = intentResult.getContents();
-                //Toast.makeText(MainActivity.this,scanResult,Toast.LENGTH_SHORT).show();
-                String regex = "(?<=\\bonClass/)\\d+\\b";//匹配出课堂id
-                Pattern pattern = Pattern.compile(regex);
-                Matcher matcher = pattern.matcher(scanResult);
-                if (matcher.find()){
-                    classId = Integer.parseInt(matcher.group());
-                    dialogView();
+                String scanResult = intentResult.getContents();
+                String[] addresses = scanResult.split("&");
+                if (System.currentTimeMillis()-Long.parseLong(addresses[1]) < 5000){
+                    webAddress = addresses[0];
+                    //Toast.makeText(MainActivity.this,webAddress,Toast.LENGTH_SHORT).show();
+                    String regex = "(?<=\\bonClass/)\\d+\\b";//匹配出课堂id
+                    Pattern pattern = Pattern.compile(regex);
+                    Matcher matcher = pattern.matcher(webAddress);
+                    if (matcher.find()){
+                        classId = Integer.parseInt(matcher.group());
+                        dialogView();
+                    }else {
+                        Toast.makeText(MainActivity.this,"无法进入指定场景",Toast.LENGTH_SHORT).show();
+                    }
+                    /**根据需要对扫描得到的字符串进行操作*/
                 }else {
-                    Toast.makeText(MainActivity.this,"无法匹配课堂号",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this,"此二维码已失效，请重新操作",Toast.LENGTH_SHORT).show();
                 }
-//                Intent intent=new Intent(MainActivity.this,StudentOTCActivity.class);
-//                intent.putExtra("address",scanResult);
-//                startActivity(intent);
-                /**根据需要对扫描得到的字符串进行操作*/
             }
         }else {
             super.onActivityResult(requestCode, resultCode, data);
@@ -212,66 +245,9 @@ public class MainActivity extends AppCompatActivity {
             {
                 if(resultCode==1)
                 {
-                    flag=data.getStringExtra("extra_data");
-                    mListView.setVisibility(View.VISIBLE);
-                    TextView temptv=(TextView)findViewById(R.id.checkhistory);
-                    temptv.setText("历史记录");
-                    TextView num=(TextView)findViewById(R.id.numinfact);
-                    TextView name=(TextView)findViewById(R.id.nameinfact);
-                    TextView num1=(TextView)findViewById(R.id.num);
-                    TextView name1=(TextView)findViewById(R.id.name);
-                    TextView num2=(TextView)findViewById(R.id.sentence);
-                    TextView name2=(TextView)findViewById(R.id.sayit);
-                    TextView wel=(TextView)findViewById(R.id.welcome);
-                    wel.setVisibility(View.VISIBLE);
-                    num.setVisibility(View.INVISIBLE);
-                    name.setVisibility(View.INVISIBLE);
-                    num1.setText("登录后返回一个学号");
-                    name1.setText("登录后返回一个姓名");
-                    num2.setText("为中华之崛起而读书");
-                    name2.setText("——周恩来");
-                    Button tempbt=(Button)findViewById(R.id.LoginButton);
-                    tempbt.setVisibility(View.INVISIBLE);
-                    tempbt.setEnabled(false);
-                    Button tempbt1=(Button)findViewById(R.id.RegisterButton);
-                    tempbt1.setVisibility(View.INVISIBLE);
-                    tempbt1.setEnabled(false);
-
                 }
             }
         }
-        /*super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==1)
-        {
-            if(resultCode==1)
-            {
-                flag=data.getStringExtra("extra_data");
-                mListView.setVisibility(View.VISIBLE);
-                TextView temptv=(TextView)findViewById(R.id.checkhistory);
-                temptv.setText("历史记录");
-                TextView num=(TextView)findViewById(R.id.numinfact);
-                TextView name=(TextView)findViewById(R.id.nameinfact);
-                TextView num1=(TextView)findViewById(R.id.num);
-                TextView name1=(TextView)findViewById(R.id.name);
-                TextView num2=(TextView)findViewById(R.id.sentence);
-                TextView name2=(TextView)findViewById(R.id.sayit);
-                TextView wel=(TextView)findViewById(R.id.welcome);
-                wel.setVisibility(View.VISIBLE);
-                num.setVisibility(View.INVISIBLE);
-                name.setVisibility(View.INVISIBLE);
-                num1.setText("登录后返回一个学号");
-                name1.setText("登录后返回一个姓名");
-                num2.setText("为中华之崛起而读书");
-                name2.setText("——周恩来");
-                Button tempbt=(Button)findViewById(R.id.LoginButton);
-                tempbt.setVisibility(View.INVISIBLE);
-                tempbt.setEnabled(false);
-                Button tempbt1=(Button)findViewById(R.id.RegisterButton);
-                tempbt1.setVisibility(View.INVISIBLE);
-                tempbt1.setEnabled(false);
-
-            }
-        }*/
     }
     class MyBaseAdapter extends BaseAdapter
     {
@@ -322,8 +298,14 @@ public class MainActivity extends AppCompatActivity {
             case R.id.CreatClass1:
             case R.id.CreatClass2:
             {
-                Intent intent=new Intent(MainActivity.this,TeacherOTCActivity.class);
-                startActivity(intent);
+                if (uid.equals("")){
+                    Toast.makeText(MainActivity.this,"无用户信息，请登录",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                    startActivity(intent);
+                }else {
+                    Intent intent=new Intent(MainActivity.this,TeacherOTCActivity.class);
+                    startActivity(intent);
+                }
                 break;
             }
             case R.id.JoinClass1:
@@ -345,12 +327,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
             }
-            /*case R.id.LoginButton:
-            {
-                Intent intent=new Intent(MainActivity.this,LoginActivity.class);
-                startActivityForResult(intent,1);
-                break;
-            }*/
             case R.id.RegisterButton:
             {
                 Intent intent=new Intent(MainActivity.this,RegisterActivity.class);
@@ -398,7 +374,7 @@ public class MainActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = getSharedPreferences("userInfo",MODE_PRIVATE).edit();
                         editor.putString("trueName",nameEdt.getText().toString());//将姓名写进文件
                         editor.putString("schoolId",studentIdEdt.getText().toString());//将学号写进文件
-                        editor.putString("webAddress",scanResult);//将课堂地址写进文件
+                        editor.putString("webAddress",webAddress);//将课堂地址写进文件
                         editor.putInt("classId",classId);//将课堂号写进文件
                         editor.putLong("enterTime",System.currentTimeMillis()-10*1000);//将进入课堂的时间戳写入用户文件
                         editor.apply();
@@ -440,17 +416,10 @@ public class MainActivity extends AppCompatActivity {
                 final String responseMessage = response.body().string();
                 Log.i("主界面，joinner模块：",responseMessage);
                 if (responseMessage.equals("successful")){
-//                    new getAppInfo().clearUsedTime(MainActivity.this);//扫码进入课堂前，先记录应用使用时间
-//                    //扫码进入课堂前，先将进入课堂的时间戳写入用户文件
-//                    SharedPreferences.Editor editor = getSharedPreferences("userInfo",MODE_PRIVATE).edit();
-//                    editor.putLong("enterTime",System.currentTimeMillis()-10*1000);
-//                    editor.apply();
 
                     Intent intent=new Intent(MainActivity.this,StudentOTCActivity.class);
-                    intent.putExtra("address",scanResult);
+                    intent.putExtra("address",webAddress);
                     intent.putExtra("classId",classId);
-//                    intent.putExtra("address","ws://10.243.6.27:8080/webSocket/onClass/117");
-//                    intent.putExtra("classId",117);
                     startActivity(intent);
                 }else {
                     runOnUiThread(new Runnable() {

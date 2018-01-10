@@ -50,7 +50,7 @@
             android:layout_alignTop="@+id/imageView"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="170dp"
-            android:text="@string/LoginWindow"
+            android:text="Watching You"
             android:textSize="40dp" />
 
         <EditText

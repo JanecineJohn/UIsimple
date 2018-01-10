@@ -171,6 +171,10 @@ public class WebSocketClientService extends Service {
     }
     //发送信息
     public void sendMsg(String msg){
+        //断线重连
+        if (mWebSocketClient == null){
+            connect();
+        }
         mWebSocketClient.send(msg);
     }
 

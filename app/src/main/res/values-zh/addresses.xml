@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="registerAddress">http://10.243.6.27:8080//AndroidUserServlet?method=register</string>
+    <string name="loginAddress">http://10.243.6.27:8080//AndroidUserServlet?method=login</string>
+    <string name="joinClassAddress">http://10.243.6.27:8080/AndroidJoinResearchServlet</string>
+    <string name="endClassAddress">http://10.243.6.27:8080/EndClassCollectStudentInfoServlet</string>
+</resources>

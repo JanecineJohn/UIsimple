@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!--注册地址-->
     <string name="registerAddress">http://10.243.6.27:8080//AndroidUserServlet?method=register</string>
+
+    <!--登录地址-->
     <string name="loginAddress">http://10.243.6.27:8080//AndroidUserServlet?method=login</string>
+
+    <!--加入课堂，填问卷的上传地址-->
     <string name="joinClassAddress">http://10.243.6.27:8080/AndroidJoinResearchServlet</string>
+
+    <!--结束课堂，手机应用信息上传地址-->
     <string name="endClassAddress">http://10.243.6.27:8080/EndClassCollectStudentInfoServlet</string>
+
+    <!--创建课堂，获得课堂地址信息地址-->
+    <string name="createClassAddress">http://10.243.6.27:8080/AndroidStartClassServlet</string>
+
+    <!--结束课堂，创建者请求参与者的手机应用信息使用情况-->
+    <string name="endClassAddressTeacher">http://10.243.6.27:8080/HasEndClassServlet?method=endClassList</string>
 </resources>
+
+    <!--10.243.20.37-->

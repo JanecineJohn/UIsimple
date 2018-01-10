@@ -15,88 +15,88 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/ll_bar"
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:orientation="vertical"
-        android:background="#03A9F4"
-        android:visibility="gone">
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical"
-        android:background="#FFF4F4F4">
         <LinearLayout
+            android:id="@+id/ll_bar"
             android:layout_width="fill_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/border_shadow">
-            <Button
-                android:id="@+id/MenuButton"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:background="@mipmap/ic_usermenu"
-                android:onClick="onClick"/>
+            android:layout_height="1dp"
+            android:orientation="vertical"
+            android:background="#03A9F4"
+            android:visibility="gone">
         </LinearLayout>
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:orientation="vertical">
-            <RelativeLayout
-                android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:background="#FFF4F4F4">
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/border_shadow">
+                <Button
+                    android:id="@+id/MenuButton"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@mipmap/ic_usermenu"
+                    android:onClick="onClick"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:layout_weight="1">
-                <Button
-                    android:id="@+id/CreatClass1"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/CreatClass2"
-                    android:layout_marginTop="100dp"
-                    android:layout_centerHorizontal="true"
-                    android:onClick="onClick"
-                    android:background="@drawable/createclass_button_selector"
-                    android:textSize="20dp"
-                    android:textColor="#FFFFFF"
-                    android:text="@string/CreateClass" />
-                <Button
-                    android:id="@+id/CreatClass2"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:onClick="onClick"
-                    android:background="@mipmap/creator"
-                    android:layout_centerVertical="true"
-                    android:layout_centerHorizontal="true" />
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight="1">
-                <Button
-                    android:id="@+id/JoinClass1"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/JoinClass2"
-                    android:layout_marginTop="110dp"
-                    android:onClick="onClick"
-                    android:background="@drawable/joinclass_button_selector"
-                    android:textSize="20dp"
-                    android:textColor="#FFFFFF"
-                    android:text="@string/JoinClass"
-                    android:layout_centerHorizontal="true" />
-                <Button
-                    android:id="@+id/JoinClass2"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:onClick="onClick"
-                    android:background="@mipmap/participant" />
-            </RelativeLayout>
+                android:orientation="vertical">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
+                    <Button
+                        android:id="@+id/CreatClass1"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/CreatClass2"
+                        android:layout_marginTop="100dp"
+                        android:layout_centerHorizontal="true"
+                        android:onClick="onClick"
+                        android:background="@drawable/createclass_button_selector"
+                        android:textSize="20dp"
+                        android:textColor="#FFFFFF"
+                        android:text="创建场景" />
+                    <Button
+                        android:id="@+id/CreatClass2"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:onClick="onClick"
+                        android:background="@mipmap/creator"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
+                    <Button
+                        android:id="@+id/JoinClass1"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/JoinClass2"
+                        android:layout_marginTop="110dp"
+                        android:onClick="onClick"
+                        android:background="@drawable/joinclass_button_selector"
+                        android:textSize="20dp"
+                        android:textColor="#FFFFFF"
+                        android:text="加入场景"
+                        android:layout_centerHorizontal="true" />
+                    <Button
+                        android:id="@+id/JoinClass2"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:onClick="onClick"
+                        android:background="@mipmap/participant" />
+                </RelativeLayout>
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
 
     </LinearLayout>
     <LinearLayout
@@ -116,52 +116,51 @@
                 android:id="@+id/numinfact"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="90dp"
                 android:layout_centerHorizontal="true"
                 android:textSize="14dp"
-                android:text="登录课堂清单"
+                android:text="立即登陆"
                 android:textColor="#ffffff"/>
             <TextView
                 android:id="@+id/nameinfact"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="80dp"
+                android:layout_marginTop="110dp"
                 android:textSize="14dp"
-                android:text="与老师分享喜悦，享受更佳的课堂体验"
+                android:text="与老师分享喜悦，获得更佳的使用体验体验"
+                android:textColor="#ffffff"/>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/Head"
+                android:layout_alignBottom="@+id/LoginButton"
+                android:layout_marginBottom="70dp"
+                android:layout_centerHorizontal="true"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:visibility="invisible"
+                android:src="@mipmap/elf"
+                app:border_color="#03A9F4"
+                app:border_width="2dp"/>
+            <TextView
+                android:id="@+id/userNameTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="125dp"
+                android:layout_centerHorizontal="true"
+                android:textSize="20sp"
                 android:textColor="#ffffff"/>
             <Button
                 android:id="@+id/LoginButton"
                 android:layout_width="198dp"
                 android:layout_height="30dp"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="130dp"
+                android:layout_marginTop="160dp"
                 android:layout_marginLeft="61dp"
                 android:onClick="onClick"
                 android:textSize="16dp"
-                android:text="立即登录"
+                android:text="@string/Login"
                 android:textColor="#FFFFFF"
                 android:background="@drawable/choose_login"/>
-            <TextView
-                android:id="@+id/sentence"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="90dp"
-                android:layout_marginLeft="61dp"
-                android:textSize="18dp"
-                android:text=""
-                android:textColor="#ffffff"/>
-            <TextView
-                android:id="@+id/sayit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="130dp"
-                android:layout_marginLeft="61dp"
-                android:textSize="16dp"
-                android:text=""
-                android:textColor="#ffffff"/>
             <Button
                 android:id="@+id/RegisterButton"
                 android:layout_width="80dp"
@@ -170,7 +169,7 @@
                 android:layout_marginTop="187dp"
                 android:onClick="onClick"
                 android:textSize="14dp"
-                android:text="快速注册"
+                android:text="@string/register"
                 android:textColor="#FFFFFF"
                 android:background="@android:color/transparent"/>
             <TextView
@@ -191,16 +190,6 @@
                 android:textSize="12dp"
                 android:text=""
                 android:textColor="#ffffff"/>
-            <TextView
-                android:id="@+id/welcome"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="159dp"
-                android:textSize="14dp"
-                android:text="欢迎回来"
-                android:visibility="invisible"
-                android:textColor="#ffffff"/>
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
@@ -211,7 +200,7 @@
                 android:layout_height="fill_parent"
                 android:gravity="center_vertical"
                 android:textSize="15dp"
-                android:text="登录查看历史记录"
+                android:text="登陆查看历史记录"
                 android:paddingLeft="10dp"
                 android:background="@drawable/easy_shadow"/>
         </RelativeLayout>

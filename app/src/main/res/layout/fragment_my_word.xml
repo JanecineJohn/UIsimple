@@ -31,16 +31,21 @@
             android:id="@+id/frag_chat_et"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="8"
-            android:textSize="20sp" />
+            android:layout_weight="7"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:singleLine="true"
+            android:imeOptions="actionSend"
+            android:textSize="17dp" />
         <Button
             android:id="@+id/frag_chat_bt"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_marginTop="12dp"
+            android:layout_marginRight="10dp"
             android:layout_marginBottom="12dp"
-            android:background="#76EE00"
+            android:background="@drawable/createclass_button_selector"
             android:textColor="#FFFFFF"
             android:text="发送"/>
     </LinearLayout>

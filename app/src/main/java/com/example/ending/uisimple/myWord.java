@@ -7,11 +7,18 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +32,8 @@ import com.example.ending.uisimple.javabean.Chatter;
 import com.example.ending.uisimple.services.WebSocketClientService;
 import com.google.gson.Gson;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -121,8 +130,39 @@ public class myWord extends Fragment {
             String message = intent.getStringExtra("newMessage");
             Gson gson = new Gson();
             Chatter chatter = gson.fromJson(message,Chatter.class);
-            show.append(chatter.getUserName() + "："
-                    + chatter.getMessage() + '\n');
+            String name=chatter.getUserName();
+            String messager=chatter.getMessage();
+            Date d = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String date = sdf.format(d);
+            date=date.substring(11);
+            int namelength=name.length();
+            int datelength=date.length();
+            int messagerlength=messager.length();
+            if(messager.equals("进入课堂(系统信息)"))
+            {
+                Spannable string=new SpannableString(name + messager+ '\n');
+                string.setSpan(new ForegroundColorSpan(Color.GRAY), 0, namelength+messagerlength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                show.append(string);
+            }
+            else if(name.equals(userName))
+            {
+                Spannable string=new SpannableString(name +"  "+date+'\n'+ messager+ '\n');
+                string.setSpan(new ForegroundColorSpan(Color.parseColor("#4CAF50")), 0, namelength+2+datelength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                string.setSpan(new StyleSpan(Typeface.BOLD),  0, namelength,  Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                string.setSpan(new AbsoluteSizeSpan(55), 0, namelength, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                show.append(string);
+            }
+            else
+            {
+                Spannable string=new SpannableString(name +"  "+date+'\n'+ messager+ '\n');
+                string.setSpan(new ForegroundColorSpan(Color.parseColor("#03A9F4")), 0, namelength+2+datelength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                string.setSpan(new StyleSpan(Typeface.BOLD),  0, namelength,  Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                string.setSpan(new AbsoluteSizeSpan(55), 0, namelength, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                show.append(string);
+            }
+//            show.append(chatter.getUserName() + "："
+//                    + chatter.getMessage() + '\n');
         }
     }
 
